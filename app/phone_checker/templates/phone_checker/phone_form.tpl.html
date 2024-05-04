@@ -1,0 +1,37 @@
+{% extends 'base.tpl.html' %}
+{% block content %}
+<div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Проверьте номер!</h2>
+    <form action="{% url 'phone_form' %}" method="post" class="flex flex-col">
+        {% csrf_token %}
+        <div class="flex mb-4 items-center">
+            <label for="phone" class="mr-2">{{ form.phone.label }}</label>
+            {{ form.phone }}
+        </div>
+        {% if form.phone.errors %}
+            <label for="phone" class="text-red-500">{{ form.phone.errors }}</label>
+        {% endif %}
+        <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 mt-4">Проверить номер</button>
+    </form>
+</div>
+
+{% if result or error or is_not_found %}
+<div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mt-4">
+    <h2 class="text-xl font-semibold text-gray-800 mb-2">Результат:</h2>
+    {%if is_not_found %}
+        <p class="text-gray-700">Данные не найдены</p>
+    {% endif %}
+    {% if result %}
+        <h3 class="text-green-500 font-semibold mb-2">Успех!</h3>
+        <p class="text-gray-700"><strong>Оператор:</strong> {{ result.operator }}</p>
+        <p class="text-gray-700"><strong>Регион:</strong> {{ result.region }}</p>
+        <p class="text-gray-700"><strong>Адрес:</strong> {{ result.address }}</p>
+    {% endif %}
+    {% if error %}
+        <h3 class="text-red-500 font-semibold mb-2">Ошибка:</h3>
+        <p class="text-gray-700">{{ error }}</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
