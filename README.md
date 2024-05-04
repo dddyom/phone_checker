@@ -22,5 +22,6 @@ sed -i '/^SECRET_KEY=/d' .env && echo "SECRET_KEY=<secret_key>" >> .env
 docker-compose up --build
 ```
 
-Для заполнения .env необходимо указать registry_url и secret_key
+Для заполнения .env необходимо указать registry_url и secret_key.
+
 `UPDATE_REGISTRY_ON_START` необходим при первой загрузке, для явной выгрузки реестра в БД сервиса. Далее БД будет обновляться раз в сутки.
